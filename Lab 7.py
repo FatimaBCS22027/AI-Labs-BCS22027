@@ -10,19 +10,29 @@ class Graph:
             self.graph[u] = []
         self.graph[u].append(v)
 
-    def DLS(self, src, target, limit):
-        print (src,end=" ")
+    def DLSS(self, src, target, limit,visited):
         if limit < 0:
             return False
+        print (src,end=" ")
         if src == target:
             print(f"\nGoal {target} found\n")
             return True
+        visited.add(src)
         if src not in self.graph:
             return False
-        for neighbor in self.graph[src]:
-            if self.DLS(neighbor, target, limit - 1):
-                return True
+        for neighbour in self.graph[src]: 
+            if neighbour not in visited:
+                if self.DLSS(neighbour, target, limit - 1,visited):
+                    return True
         return False
+    
+    def DLS(self,src,target,limit):
+        visited=set()
+        if self.DLSS(src,target,limit,visited):
+            return True
+        else:
+            print ("Goal not found")
+            return False
 
 
 # Build graph from image
@@ -44,35 +54,42 @@ g.add_edge('I', 'L')
 
 # Apply DLS
 print("DLS path to G:")
-if not g.DLS('A', 'G', 3):
-    print("Goal not found")
+g.DLS('A', 'L', 2)
 
 
 #Program 2:
-
 class Graph:
     def __init__(self):
         self.graph = {}
 
     def add_edge(self, u, v):
+        
         if u not in self.graph:
             self.graph[u] = []
         self.graph[u].append(v)
 
-    # DLS used inside IDDFS
-    def DLS(self, src, target, limit):
-        print(src, end=" ")
-        if src == target:
-            print(f"\nGoal {target} found ")
-            return True
-        if limit <= 0:
+    def DLSS(self, src, target, limit,visited):
+        if limit < 0:
             return False
+        print (src,end=" ")
+        if src == target:
+            print(f"\nGoal {target} found\n")
+            return True
+        visited.add(src)
         if src not in self.graph:
             return False
-        for neighbor in self.graph[src]:
-            if self.DLS(neighbor, target, limit - 1):
-                return True
+        for neighbour in self.graph[src]: 
+            if neighbour not in visited:
+                if self.DLSS(neighbour, target, limit - 1,visited):
+                    return True
         return False
+    
+    def DLS(self,src,target,limit):
+        visited=set()
+        if self.DLSS(src,target,limit,visited):
+            return True
+        else:
+            return False
 
     # IDDFS main logic
     def IDDFS(self, src, target, max_depth):
@@ -123,6 +140,7 @@ and reliable search in this scenario.
 
 
 '''
+
 
 
 
